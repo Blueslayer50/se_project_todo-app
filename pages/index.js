@@ -1,5 +1,5 @@
 import { initialTodos, validationConfig } from "../utils/constants.js";
-import Todo from "../components/Todo.js";
+import Todo from "../components/ToDo.js";
 import FormValidator from "../components/FormValidator.js";
 
 const addTodoButton = document.querySelector(".button_action_add");

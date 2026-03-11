@@ -19,12 +19,11 @@ class Todo {
     const checkbox = this.element.querySelector(".todo__completed");
     if (this.checkboxEl) {
       this.checkboxEl.addEventListener("change", (evt) =>
-        this._toggleComplete(evt)
-    );
-  }
+        this._toggleComplete(evt),
+      );
+    }
 
-  _deleteTodo() ,
-    this.element.remove();
+    (_deleteTodo(), this.element.remove());
   }
 
   _toggleComplete(evt) {
@@ -68,15 +67,13 @@ class Todo {
 
     if (this.nameEl) {
       this.nameEl.textContent = this.data.name ?? "";
-}
+    }
 
-    
-      if (this.dateEl) {
+    if (this.dateEl) {
       this.dateEl.textContent = this._formatDueDate();
     }
 
-
-     if (this.checkboxEl) {
+    if (this.checkboxEl) {
       this.checkboxEl.checked = !!this.data.completed;
       checkbox.checked = !!this.data.completed;
       const uniqueId = `todo-${crypto.randomUUID()}`;
@@ -84,8 +81,8 @@ class Todo {
 
       if (this.labelEl) {
         this.labelEl.setAttribute("for", uniqueId);
+      }
     }
-
     this.element = todoElement;
     this._setEventListeners();
     return this.element;
