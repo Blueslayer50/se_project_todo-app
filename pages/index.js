@@ -4,18 +4,13 @@ import FormValidator from "../components/FormValidator.js";
 
 const addTodoButton = document.querySelector(".button_action_add");
 const addTodoPopup = document.querySelector("#add-todo-popup");
-const addTodoForm = document.querySelector("#add-todo-form");
 const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
 const todosList = document.querySelector(".todos__list");
 const counterText = document.querySelector(".counter__text");
+const addTodoForm = document.querySelector("#add-todo-form");
 
-const openModal = (modal) => {
-  modal.classList.add("popup_visible");
-};
-
-const closeModal = (modal) => {
-  modal.classList.remove("popup_visible");
-};
+const openModal = (modal) => modal.classList.add("popup_visible");
+const closeModal = (modal) => modal.classList.remove("popup_visible");
 
 function updateCounter() {
   const allItems = todosList.querySelectorAll(".todo");
@@ -27,11 +22,7 @@ function generateTodo(data) {
   const todo = new Todo(data, "#todo-template");
   const todoElement = todo.getView();
 
-  todoElement.addEventListener("change", (evt) => {
-    if (evt.target.classList.contains("todo__completed")) {
-      updateCounter();
-    }
-  });
+  todoElement.addEventListener("change", () => updateCounter());
   todoElement.addEventListener("click", (evt) => {
     if (evt.target.classList.contains("todo__delete-btn")) {
       setTimeout(updateCounter, 0);
@@ -41,42 +32,42 @@ function generateTodo(data) {
   return todoElement;
 }
 
-addTodoButton.addEventListener("click", () => {
-  openModal(addTodoPopup);
-});
-
-addTodoCloseBtn.addEventListener("click", () => {
-  closeModal(addTodoPopup);
-});
+addTodoButton.addEventListener("click", () => openModal(addTodoPopup));
+addTodoCloseBtn.addEventListener("click", () => closeModal(addTodoPopup));
 
 addTodoForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
+
   const name = evt.target.name.value.trim();
   if (!name) return;
-  const dateInput = evt.target.date.value;
-  let date = "";
-  if (dateInput) {
-    const dateObj = new Date(dateInput);
-    date = dateObj.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  }
 
-  const values = { name, date, completed: false };
+  const dateInput = evt.target.date.value;
+  const date = dateInput ? new Date(dateInput) : null;
+
+  const values = {
+    name,
+    date,
+    completed: false,
+  };
+
   const todoElement = generateTodo(values);
   todosList.append(todoElement);
 
-  todosList.append(todo);
   closeModal(addTodoPopup);
-  addTodoForm.reset();
+
   formValidator.resetValidation();
   updateCounter();
 });
 
+// Load initial todos
 initialTodos.forEach((item) => {
-  const todoElement = generateTodo(item);
+  const date = item.date ? new Date(item.date) : null;
+
+  const todoElement = generateTodo({
+    ...item,
+    date,
+  });
+
   todosList.append(todoElement);
 });
 
