@@ -72,24 +72,20 @@ class Todo {
 
     this.element = todoElement;
 
-    // Cache elements
     this.nameEl = this.element.querySelector(".todo__name");
     this.dateEl = this.element.querySelector(".todo__date");
     this.checkboxEl = this.element.querySelector(".todo__completed");
     this.labelEl = this.element.querySelector(".todo__label");
     this.deleteBtn = this.element.querySelector(".todo__delete-btn");
 
-    // Set name
     if (this.nameEl) {
       this.nameEl.textContent = this.data.name ?? "";
     }
 
-    // Set date
     if (this.dateEl) {
       this.dateEl.textContent = this._formatDueDate();
     }
 
-    // Set checkbox + label
     if (this.checkboxEl) {
       this.checkboxEl.checked = !!this.data.completed;
 
