@@ -1,5 +1,5 @@
 import { initialTodos, validationConfig } from "../utils/constants.js";
-import Todo from "../components/Todo.js";
+import Todo from "../components/Todozx.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
