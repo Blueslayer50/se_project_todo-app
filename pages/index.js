@@ -22,6 +22,10 @@ function generateTodo(data) {
 }
 
 let todoSection;
+const renderTodo = (item) => {
+  const todoElement = generateTodo(item);
+  todoSection.addItem(todoElement);
+};
 
 todoSection = new Section({
   items: initialTodos.map((item) => ({
@@ -29,8 +33,7 @@ todoSection = new Section({
     date: item.date ? new Date(item.date) : null,
   })),
   renderer: (item) => {
-    const todoElement = generateTodo(item);
-    todoSection.addItem(todoElement);
+    renderTodo(item); // clean one‑liner
   },
   containerSelector: ".todos__list",
 });
@@ -49,10 +52,10 @@ const addTodoPopup = new PopupWithForm("#add-todo-popup", (formData) => {
     completed: false,
   };
 
-  const todoElement = generateTodo(values);
-  todoSection.addItem(todoElement);
+  renderTodo(values);
 
   todoCounter.updateTotal(true);
+  formValidator.resetValidation();
 
   addTodoPopup.close();
 });
