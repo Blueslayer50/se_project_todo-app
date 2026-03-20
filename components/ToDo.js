@@ -1,7 +1,10 @@
 class Todo {
-  constructor(data, selector) {
+  constructor(data, selector, { handleToggle, handleDelete }) {
     this.data = data;
     this.selector = selector;
+
+    this._handleToggle = handleToggle;
+    this._handleDelete = handleDelete;
 
     this.element = null;
     this.nameEl = null;
@@ -12,16 +15,20 @@ class Todo {
   }
 
   _setEventListeners() {
-    // Delete button
     if (this.deleteBtn) {
-      this.deleteBtn.addEventListener("click", () => this._deleteTodo());
+      this.deleteBtn.addEventListener("click", () => {
+        const wasCompleted = this.checkboxEl.checked;
+        this._handleDelete(wasCompleted); // notify counter
+        this._deleteTodo();
+      });
     }
 
-    // Checkbox toggle
     if (this.checkboxEl) {
-      this.checkboxEl.addEventListener("change", (evt) =>
-        this._toggleComplete(evt),
-      );
+      this.checkboxEl.addEventListener("change", (evt) => {
+        const isCompleted = evt.target.checked;
+        this._toggleComplete(isCompleted);
+        this._handleToggle(isCompleted); // notify counter
+      });
     }
   }
 
@@ -29,8 +36,8 @@ class Todo {
     this.element.remove();
   }
 
-  _toggleComplete(evt) {
-    if (evt.target.checked) {
+  _toggleComplete(isCompleted) {
+    if (isCompleted) {
       this.element.classList.add("todo_completed");
     } else {
       this.element.classList.remove("todo_completed");
@@ -39,6 +46,7 @@ class Todo {
 
   _formatDueDate() {
     if (!this.data.date) return "";
+
     if (this.data.date instanceof Date) {
       return this.data.date.toLocaleDateString("en-US", {
         year: "numeric",
@@ -46,6 +54,7 @@ class Todo {
         day: "numeric",
       });
     }
+
     return "";
   }
 
